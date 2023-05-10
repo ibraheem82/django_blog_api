@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .serializers import RegisterSerializer
 from rest_framework import status
 # Create your views here.
-def RegisterView(APIView):
+class RegisterView(APIView):
   
   def post(self, request):
     try:
