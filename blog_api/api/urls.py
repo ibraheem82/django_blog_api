@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.urls import path
-from accounts.views import RegisterView
+from django.urls import path, include
 urlpatterns = [
-    path('')
+    path('account/', include('accounts.urls'))
 ]
