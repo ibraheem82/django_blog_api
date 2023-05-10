@@ -16,12 +16,12 @@ class RegisterView(APIView):
         }, status = status.HTTP_400_BAD_REQUEST)
       serializer.save()
       return Response({
-        'data': {}
+        'data': {},
           'message': 'Account created'
       }, status = status.HTTP_200_BAD_CREATED)
         
     except Exception as :
       return Response({
-          'data': {}
+          'data': {},
           'message': 'something went wrong',
         }, status = status.HTTP_400_BAD_REQUEST)
