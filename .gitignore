@@ -2,3 +2,5 @@
 /requirements.txt
 /blog_api/blog_api/__pycache__
 /blog_api/accounts/migrations
+/blog_api/accounts/__pycache__
+/blog_api/db.sqlite3
