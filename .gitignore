@@ -4,3 +4,4 @@
 /blog_api/accounts/migrations
 /blog_api/accounts/__pycache__
 /blog_api/db.sqlite3
+/blog_api/api/__pycache__
