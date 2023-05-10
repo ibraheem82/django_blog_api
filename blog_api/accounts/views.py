@@ -18,7 +18,7 @@ class RegisterView(APIView):
       return Response({
         'data': {},
           'message': 'Account created'
-      }, status = status.HTTP_200_BAD_CREATED)
+      }, status = status.HTTP_201_CREATED)
         
     except Exception as e:
       return Response({
