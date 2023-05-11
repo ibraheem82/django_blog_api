@@ -4,7 +4,6 @@ from .serializer import RegisterSerializer
 from rest_framework import status
 # Create your views here.
 class RegisterView(APIView):
-  
   def post(self, request):
     try:
       data = request.data
