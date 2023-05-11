@@ -21,3 +21,30 @@ class RegisterSerializer(serializers.Serializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+    
+    
+    def validate(self, data):
+        if not User.objects.filter(username=data['username']).exists():
+            raise serializers.ValidationError('Account not found')
+        return data
+
+    def get_jwt_token(self, data):
+        user = authenticate(username=data['username'], password=data['password'])
+        if not user:
+            return {
+                'message': 'Invalid credentials',
+                'data': {}
+            }
+
+        refresh = RefreshToken.for_user(user)
+        return {
+            'message': 'Login success',
+            'data': {'token': {'refresh': str(refresh),
+                            'access': str(refresh.access_token)}
+                    }
+        }
