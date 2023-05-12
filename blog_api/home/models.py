@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 import uuid
-fro django.contrib.auth.models import User
+from django.contrib.auth.models import User
 
 class BaseModel(models.Model):
   uid = models.UUIDFiled(primary_key=True, editable=False, default=uuid.uuid4)
