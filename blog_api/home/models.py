@@ -20,3 +20,4 @@ class Blog(BaseModel):
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "blogs")
   title = models.CharField(max_length=200)
   blog_text = models.TextField()
+  main_image = models.ImageField(upload_to = "blogs")
