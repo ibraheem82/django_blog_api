@@ -12,6 +12,7 @@ class BlogView(APIView):
     def post(self, request):
       try:
         data = request.data
+        data['user'] = request.user.id
         serializer = BlogSerializer(data = data)
 
         if not serializer.is_valid():
