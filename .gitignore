@@ -6,3 +6,4 @@
 /blog_api/db.sqlite3
 /blog_api/api/__pycache__
 /blog_api/home/migrations
+/blog_api/home/__pycache__
