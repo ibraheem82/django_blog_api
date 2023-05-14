@@ -14,4 +14,8 @@ class BlogView(APIView):
         data = request.data
         serializer = BlogSerializer(data = data)
       except Exception as e:
-        print(e)  
+        return Response({
+                'data': {},
+                'message': 'something went wrong',
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response, status=status.HTTP_200_OK)
