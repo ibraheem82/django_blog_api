@@ -17,7 +17,7 @@ class BlogView(APIView):
         blogs = Blog.objects.filter(user = request.user)
         serializer = BlogSerializer(blogs, many  = True)
         return Response({
-                    'data': serializer.errors,
+                    'data': serializer.data,
                     'message': 'Blogs fetched successfully✅'
                 }, status=status.HTTP_400_BAD_REQUEST)
       except Exception as e:
