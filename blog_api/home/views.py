@@ -4,6 +4,7 @@ from .serializers import BlogSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .models import Blog
 # Create your views here.
 
 class BlogView(APIView):
