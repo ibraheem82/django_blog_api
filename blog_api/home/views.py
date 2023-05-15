@@ -9,6 +9,24 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 class BlogView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    
+    # * Get all the blog posts that a user has created.
+    def get(self, request):
+      try:
+        blogs = Blog.objects.filter(user = request.user)
+        serializer = BlogSerializer(blogs, many  = True)
+        return Response({
+                    'data': serializer.errors,
+                    'message': 'Blogs fetched successfully✅'
+                }, status=status.HTTP_400_BAD_REQUEST)
+      except Exception as e:
+        print(e)
+        return Response({
+                'data': {},    
+                'message': 'something went wrong❌',
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response, status=status.HTTP_200_OK)
+    
     def post(self, request):
       try:
         data = request.data
