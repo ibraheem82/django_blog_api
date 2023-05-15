@@ -28,6 +28,6 @@ class BlogView(APIView):
       except Exception as e:
         return Response({
                 'data': {},    
-                'message': 'something went wrong',
+                'message': 'something went wrong❌',
             }, status=status.HTTP_400_BAD_REQUEST)
         return Response(response, status=status.HTTP_200_OK)
