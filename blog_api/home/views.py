@@ -18,7 +18,7 @@ class BlogView(APIView):
         if not serializer.is_valid():
                 return Response({
                     'data': serializer.errors,
-                    'message': 'something went wrong'
+                    'message': 'something went wrong❌'
                 }, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         return Response({
