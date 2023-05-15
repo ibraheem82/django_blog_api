@@ -23,7 +23,7 @@ class BlogView(APIView):
         serializer.save()
         return Response({
         'data': serializer.data,
-          'message': 'Blog created successfully'
+          'message': 'Blog created successfully➕'
       }, status = status.HTTP_201_CREATED)
       except Exception as e:
         return Response({
