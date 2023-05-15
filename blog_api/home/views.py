@@ -4,11 +4,30 @@ from .serializers import BlogSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .models import Blog
 # Create your views here.
 
 class BlogView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
+    
+    # * Get all the blog posts that a user has created.
+    def get(self, request):
+      try:
+        blogs = Blog.objects.filter(user = request.user)
+        serializer = BlogSerializer(blogs, many  = True)
+        return Response({
+                    'data': serializer.data,
+                    'message': 'Blogs fetched successfully✅'
+                }, status=status.HTTP_400_BAD_REQUEST)
+      except Exception as e:
+        print(e)
+        return Response({
+                'data': {},    
+                'message': 'something went wrong❌',
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response, status=status.HTTP_200_OK)
+    
     def post(self, request):
       try:
         data = request.data
@@ -18,16 +37,16 @@ class BlogView(APIView):
         if not serializer.is_valid():
                 return Response({
                     'data': serializer.errors,
-                    'message': 'something went wrong'
+                    'message': 'something went wrong❌'
                 }, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         return Response({
-        'data': serilizer.data,
-          'message': 'Blog created successfully'
+        'data': serializer.data,
+          'message': 'Blog created successfully➕'
       }, status = status.HTTP_201_CREATED)
       except Exception as e:
         return Response({
                 'data': {},    
-                'message': 'something went wrong',
+                'message': 'something went wrong❌',
             }, status=status.HTTP_400_BAD_REQUEST)
         return Response(response, status=status.HTTP_200_OK)
