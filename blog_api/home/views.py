@@ -22,7 +22,7 @@ class BlogView(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         return Response({
-        'data': serilizer.data,
+        'data': serializer.data,
           'message': 'Blog created successfully'
       }, status = status.HTTP_201_CREATED)
       except Exception as e:
