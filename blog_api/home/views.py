@@ -20,8 +20,8 @@ class PublicBlog(APIView):
                 blogs = blogs.filter(Q(title__icontains=search) | Q(blog_text__icontains=search))
                 
             page_number = request.GET.get('page', 1)
-            # sending 2 blog posts from the database
-            paginator = Paginator(blogs, 2)
+            # sending 3 blog posts from the database
+            paginator = Paginator(blogs, 3)
             serializer = BlogSerializer(paginator.page(page_number), many=True)
             
             return Response({
