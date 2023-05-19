@@ -10,9 +10,9 @@ from django.db.models import Q
 # Create your views here.
 
 class PublicBlog(APIView):
-  def get(self, request):
-    try:
-        blogs = Blog.objects.all()
+    def get(self, request):
+        try:
+            blogs = Blog.objects.all()
         # * http://127.0.0.1:8000/api/home/blog/?search=name
         if request.GET.get('search'):
           search = request.GET.get('search')
