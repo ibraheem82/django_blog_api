@@ -8,6 +8,29 @@ from .models import Blog
 from django.db.models import Q
 # Create your views here.
 
+class PublicBlog(APIView):
+  def get(self, request):
+    try:
+        blogs = Blog.objects.filter(user = request.user)
+        # * http://127.0.0.1:8000/api/home/blog/?search=name
+        if request.GET.get('search'):
+          search = request.GET.get('search')
+          blogs = blogs.filter(Q(title__icontains = search) | Q(blog_text__icontains = search))
+        serializer = BlogSerializer(blogs, many  = True)
+        return Response({
+                    'data': serializer.data,
+                    'message': 'Blogs fetched successfully✅'
+                }, status=status.HTTP_400_BAD_REQUEST)
+      except Exception as e:
+        print(e)
+        return Response({
+                'data': {},    
+                'message': 'something went wrong❌',
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response, status=status.HTTP_200_OK)
+    
+  
+
 class BlogView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
