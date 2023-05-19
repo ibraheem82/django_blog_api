@@ -55,3 +55,46 @@ class BlogView(APIView):
                 'message': 'something went wrong❌',
             }, status=status.HTTP_400_BAD_REQUEST)
         return Response(response, status=status.HTTP_200_OK)
+      
+    def patch(self, request):
+      try:
+          data = request.data
+          blog = Blog.objects.filter(uid=data.get('uid'))
+          if not blog.exists():
+              return Response({
+                  'data': {},    
+                  'message': 'Invalid blog uid❌',
+              }, status=status.HTTP_400_BAD_REQUEST)
+
+          for blog_item in blog:
+              if request.user != blog_item.user:
+                  return Response({
+                      'data': {},    
+                      'message': 'You are not authorized to do this.❌',
+                  }, status=status.HTTP_400_BAD_REQUEST)
+            
+              serializer = BlogSerializer(blog_item, data=data, partial=True)
+              if not serializer.is_valid():
+                  return Response({
+                      'data': serializer.errors,
+                      'message': 'Something went wrong❌'
+                  }, status=status.HTTP_400_BAD_REQUEST)
+              serializer.save()
+              return Response({
+                  'data': serializer.data,
+                  'message': 'Blog updated successfully⛓'
+              }, status=status.HTTP_201_CREATED)
+          
+      except ValueError as e:
+          print(e)  # Consider using a logging library instead of print
+          return Response({
+              'data': {},    
+              'message': 'Invalid data format❌',
+          }, status=status.HTTP_400_BAD_REQUEST)
+      
+      except Exception as e:
+          print(e)  # Consider using a logging library instead of print
+          return Response({
+              'data': {},    
+              'message': 'Something went wrong❌',
+          }, status=status.HTTP_400_BAD_REQUEST)
