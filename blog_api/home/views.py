@@ -98,3 +98,31 @@ class BlogView(APIView):
               'data': {},    
               'message': 'Something went wrong❌',
           }, status=status.HTTP_400_BAD_REQUEST)
+          
+    def delete(self, request):
+      try:
+          data = request.data
+          blog = Blog.objects.filter(uid=data.get('uid'))
+          if not blog.exists():
+              return Response({
+                  'data': {},    
+                  'message': 'Invalid blog uid❌',
+              }, status=status.HTTP_400_BAD_REQUEST)
+
+          if request.user != blog[0].user:
+              return Response({
+                  'data': {},    
+                  'message': 'You are not authorized to do this.❌',
+              }, status=status.HTTP_400_BAD_REQUEST)
+                
+          blog[0].delete()
+          return Response({
+              'data': {},    
+              'message': 'Blog deleted successfully⛓'
+          }, status=status.HTTP_200_OK)
+      except Exception as e:
+          print(e)  # Consider using a logging library instead of print
+          return Response({
+              'data': {},    
+              'message': 'Something went wrong❌',
+          }, status=status.HTTP_400_BAD_REQUEST)
