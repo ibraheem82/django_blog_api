@@ -16,7 +16,8 @@ class PublicBlog(APIView):
         if request.GET.get('search'):
           search = request.GET.get('search')
           blogs = blogs.filter(Q(title__icontains = search) | Q(blog_text__icontains = search))
-        serializer = BlogSerializer(blogs, many  = True)
+        page_number = request.GET.get('page', 1)
+        paginator = Paginator(blogs, 1)
         return Response({
                     'data': serializer.data,
                     'message': 'Blogs fetched successfully✅'
