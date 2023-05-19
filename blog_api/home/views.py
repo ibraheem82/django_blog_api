@@ -27,7 +27,7 @@ class PublicBlog(APIView):
             return Response({
                 'data': serializer.data,
                 'message': 'Blogs fetched successfully✅'
-            }, status=status.HTTP_201_CREATED)
+            }, status=status.HTTP_200_OK)
         
         except Exception as e:
             print(e)
