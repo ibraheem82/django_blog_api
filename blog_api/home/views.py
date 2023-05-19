@@ -13,23 +13,29 @@ class PublicBlog(APIView):
     def get(self, request):
         try:
             blogs = Blog.objects.all()
-        # * http://127.0.0.1:8000/api/home/blog/?search=name
-        if request.GET.get('search'):
-          search = request.GET.get('search')
-          blogs = blogs.filter(Q(title__icontains = search) | Q(blog_text__icontains = search))
-        page_number = request.GET.get('page', 1)
-        paginator = Paginator(blogs, 1)
-        return Response({
-                    'data': serializer.data,
-                    'message': 'Blogs fetched successfully✅'
-                }, status=status.HTTP_400_BAD_REQUEST)
-      except Exception as e:
-        print(e)
-        return Response({
-                'data': {},    
-                'message': 'something went wrong❌',
+            
+            # Filtering blogs based on search query
+            if request.GET.get('search'):
+                search = request.GET.get('search')
+                blogs = blogs.filter(Q(title__icontains=search) | Q(blog_text__icontains=search))
+                
+            page_number = request.GET.get('page', 1)
+            # sending 2 blog posts from the database
+            paginator = Paginator(blogs, 2)
+            serializer = BlogSerializer(paginator.page(page_number), many=True)
+            
+            return Response({
+                'data': serializer.data,
+                'message': 'Blogs fetched successfully✅'
+            }, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            print(e)
+            return Response({
+                'data': {},
+                'message': 'Something went wrong or invalid page.',
             }, status=status.HTTP_400_BAD_REQUEST)
-        return Response(response, status=status.HTTP_200_OK)
+
     
   
 
