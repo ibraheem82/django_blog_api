@@ -12,7 +12,7 @@ from django.db.models import Q
 class PublicBlog(APIView):
     def get(self, request):
         try:
-            blogs = Blog.objects.all()
+            blogs = Blog.objects.all().order_by('?')
             
             # Filtering blogs based on search query
             if request.GET.get('search'):
