@@ -20,15 +20,14 @@ class PublicBlog(APIView):
                 blogs = blogs.filter(Q(title__icontains=search) | Q(blog_text__icontains=search))
                 
             page_number = request.GET.get('page', 1)
-            # sending 3 blog posts from the database
-            paginator = Paginator(blogs, 3)
+            # sending 5 blog posts from the database
+            paginator = Paginator(blogs, 5)
             serializer = BlogSerializer(paginator.page(page_number), many=True)
             
             return Response({
                 'data': serializer.data,
                 'message': 'Blogs fetched successfully✅'
-            }, status=status.HTTP_200_OK)
-        
+            }, status=status.HTTP_200_OK)  
         except Exception as e:
             print(e)
             return Response({
